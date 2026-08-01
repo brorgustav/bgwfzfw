@@ -108,9 +108,12 @@ def _proto_ver_generator(target, source, env):
         git_describe = describe()
 
     if not git_describe:
-        raise StopError("Failed to process git tags for protobuf versioning")
-
-    git_major, git_minor = git_describe.split(".")
+        # Use default version for custom firmware without git tags
+        print(fg.boldyellow("Warning: No git tags found, using default protobuf version"))
+        git_major, git_minor = "0", "1"
+    else:
+        git_major, git_minor = git_describe.split(".")
+    
     version_file_data = (
         "#pragma once",
         f"#define PROTOBUF_MAJOR_VERSION {git_major}",

@@ -69,7 +69,7 @@ static inline DialogMessageButton bgwx_about_screen_info(DialogsApp* dialogs, Di
     FuriString* buffer;
     buffer = furi_string_alloc();
 
-    const char* speaker_pin = bgwx_use_custom_speaker ? "PA6 (External)" : "PB8 (Internal)";
+    const char* speaker_pin = bgwx_use_custom_speaker ? "PB3 (GPIO External)" : "PB8 (Internal)";
     
     furi_string_cat_printf(
         buffer,

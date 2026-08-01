@@ -1,22 +1,17 @@
 #pragma once
 
+#include "hid_usage_desktop.h"
+#include "hid_usage_button.h"
+#include "hid_usage_keyboard.h"
+#include "hid_usage_consumer.h"
+#include "hid_usage_led.h"
 #include <stdint.h>
-#include <furi_hal_usb.h>
 
 #define CCID_SHORT_APDU_SIZE (0xFF)
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/** App-local USB CCID device interface.
- *
- * This used to live in the firmware HAL (furi_hal_usb_ccid). It now lives
- * inside the ccid_test app: the app defines its own FuriHalUsbInterface and
- * drives the libusb_stm32 device stack directly through the usbd_* inline
- * helpers (usbd_core.h), which are shipped in the app SDK.
- */
-extern FuriHalUsbInterface ccid_usb_interface;
 
 typedef struct {
     uint16_t vid;
@@ -40,13 +35,13 @@ typedef struct {
  * @param      cb       CcidCallbacks instance
  * @param      context  The context for callbacks
  */
-void ccid_usb_set_callbacks(CcidCallbacks* cb, void* context);
+void furi_hal_usb_ccid_set_callbacks(CcidCallbacks* cb, void* context);
 
 /** Insert Smart Card */
-void ccid_usb_insert_smartcard(void);
+void furi_hal_usb_ccid_insert_smartcard(void);
 
 /** Remove Smart Card */
-void ccid_usb_remove_smartcard(void);
+void furi_hal_usb_ccid_remove_smartcard(void);
 
 #ifdef __cplusplus
 }
