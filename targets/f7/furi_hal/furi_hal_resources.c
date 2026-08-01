@@ -76,6 +76,10 @@ const GpioPin gpio_usart_rx = {.port = USART1_RX_Port, .pin = USART1_RX_Pin};
 const GpioPin gpio_i2c_power_sda = {.port = GPIOA, .pin = LL_GPIO_PIN_10};
 const GpioPin gpio_i2c_power_scl = {.port = GPIOA, .pin = LL_GPIO_PIN_9};
 
+// Runtime speaker pin selection - both pins always defined
+const GpioPin gpio_speaker = {.port = GPIOB, .pin = LL_GPIO_PIN_8}; // Default
+const GpioPin bgw_gpio_speaker = {.port = GPIOA,
+                                  .pin = LL_GPIO_PIN_6}; // Custom (GPIO pin 3)
 
 const GpioPin gpio_periph_power = {.port = GPIOA, .pin = LL_GPIO_PIN_3};
 
@@ -155,14 +159,23 @@ const GpioPinRecord gpio_pins[] = {
      .channel = FuriHalAdcChannelNone,
      .number = 17,
      .debug = true},
-    // GND: 18
+// GND: 18
 
-    /* Dangerous pins, may damage hardware */
+/* Dangerous pins, may damage hardware */
+#ifdef BGWX_CUSTOM_SPEAKER
+    {.pin = &bgw_gpio_speaker,
+     .name = "PB3",
+     .channel = FuriHalAdcChannelNone,
+     .number = 0,
+     .debug = true},
+#else
     {.pin = &gpio_speaker,
      .name = "PB8",
      .channel = FuriHalAdcChannelNone,
      .number = 0,
      .debug = true},
+#endif
+
     {.pin = &gpio_infrared_tx,
      .name = "PB9",
      .channel = FuriHalAdcChannelNone,
@@ -173,12 +186,16 @@ const GpioPinRecord gpio_pins[] = {
 const size_t gpio_pins_count = COUNT_OF(gpio_pins);
 
 const InputPin input_pins[] = {
-    {.gpio = &gpio_button_up, .key = InputKeyUp, .inverted = true, .name = "Up"},
-    {.gpio = &gpio_button_down, .key = InputKeyDown, .inverted = true, .name = "Down"},
-    {.gpio = &gpio_button_right, .key = InputKeyRight, .inverted = true, .name = "Right"},
-    {.gpio = &gpio_button_left, .key = InputKeyLeft, .inverted = true, .name = "Left"},
-    {.gpio = &gpio_button_ok, .key = InputKeyOk, .inverted = false, .name = "OK"},
-    {.gpio = &gpio_button_back, .key = InputKeyBack, .inverted = true, .name = "Back"},
+    {.gpio = &gpio_button_up,
+     .key = InputKeyUp,
+     .inverted = true,
+     .name = "Up"},
+    {.gpio = &gpio_button_down,
+     .key = InputKeyDown,
+     .inverted = true,
+     .name = "Down"},
+    {.gpio = &gpio_button_right,
+     .key = InputKeyRight,
      .inverted = true,
      .name = "Right"},
     {.gpio = &gpio_button_left,
