@@ -1,11 +1,18 @@
 ## Firmware Changes (Tracking)
 
-This fork currently includes the following firmware changes (compared to commit `018a3d0`):
+This fork currently includes the following tracked firmware changes:
 
-1. `/home/runner/work/bgwfzfw/bgwfzfw/applications/settings/bgwx_settings/application.fam`
-   - **Line 18**: changed `order=80` to `order=85` for `bgwx_settings`.
-2. `/home/runner/work/bgwfzfw/bgwfzfw/targets/f7/target.json`
-   - **Line 24**: added `"bgwxfzfw"` to the `linker_dependencies` list.
+1. **BGWX Settings menu order adjustment**
+   - **File:** `/home/runner/work/bgwfzfw/bgwfzfw/applications/settings/bgwx_settings/application.fam`
+   - **Line:** `18`
+   - **Change:** `order=80` → `order=85`
+   - **Effect:** moves `bgwx_settings` lower in settings ordering.
+
+2. **BGWX firmware module linked into f7 target**
+   - **File:** `/home/runner/work/bgwfzfw/bgwfzfw/targets/f7/target.json`
+   - **Line:** `24`
+   - **Change:** added `"bgwxfzfw"` to `linker_dependencies`
+   - **Effect:** includes BGWX firmware code during target link stage.
 
 ---
 
