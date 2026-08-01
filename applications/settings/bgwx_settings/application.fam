@@ -1,0 +1,19 @@
+App(
+    appid="bgwx_init",
+    name="BGWX Initialize",
+    apptype=FlipperAppType.STARTUP,
+    entry_point="bgwx_on_system_start",
+    sources=["*.c"],
+    order=250,
+)
+
+App(
+    appid="bgwx_settings",
+    name="BGWX Settings",
+    apptype=FlipperAppType.SETTINGS,
+    entry_point="bgwx_settings_app",
+    requires=["gui"],
+    sources=["*.c"],
+    stack_size=1 * 1024,
+    order=80,
+)
