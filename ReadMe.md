@@ -1,18 +1,29 @@
 ## Firmware Changes (Tracking)
 
-This fork currently includes the following tracked firmware changes:
+Compared to upstream `upstream/dev` (`6bf5e4f1`), this fork includes:
 
-1. **BGWX Settings menu order adjustment**
-   - **File:** `/home/runner/work/bgwfzfw/bgwfzfw/applications/settings/bgwx_settings/application.fam`
-   - **Line:** `18`
-   - **Change:** `order=80` → `order=85`
-   - **Effect:** moves `bgwx_settings` lower in settings ordering.
+1. **Settings integration**
+   - `/home/runner/work/bgwfzfw/bgwfzfw/applications/settings/application.fam` — line `10-11` added `bgwx_init` and `bgwx_settings`.
+   - `/home/runner/work/bgwfzfw/bgwfzfw/applications/settings/bgwx_settings/application.fam` — new file, lines `1-19` (startup + settings app registrations).
+   - `/home/runner/work/bgwfzfw/bgwfzfw/applications/settings/bgwx_settings/bgwxfzfw_settings.c` — new file, lines `1-69` (settings UI + startup load hook).
+   - `/home/runner/work/bgwfzfw/bgwfzfw/applications/settings/bgwx_settings/bgwxfzfw_settings.h` — new file, lines `1-15` (settings app structs/enums).
 
-2. **BGWX firmware module linked into f7 target**
-   - **File:** `/home/runner/work/bgwfzfw/bgwfzfw/targets/f7/target.json`
-   - **Line:** `24`
-   - **Change:** added `"bgwxfzfw"` to `linker_dependencies`
-   - **Effect:** includes BGWX firmware code during target link stage.
+2. **BGWX firmware module**
+   - `/home/runner/work/bgwfzfw/bgwfzfw/bgwxfzfw/SConscript` — new file, lines `1-10` (build module definition).
+   - `/home/runner/work/bgwfzfw/bgwfzfw/bgwxfzfw/bgwxfzfw.c` — new file, lines `1-60` (speaker mode state + persistent storage load/save).
+   - `/home/runner/work/bgwfzfw/bgwfzfw/bgwxfzfw/bgwxfzfw.h` — new file, lines `1-88` (API, storage settings struct, about dialog info).
+   - `/home/runner/work/bgwfzfw/bgwfzfw/bgwxfzfw/bgwxfzfw_defines.h` — new file, lines `1-30` (speaker pin/timer defines).
+
+3. **Build/linker wiring**
+   - `/home/runner/work/bgwfzfw/bgwfzfw/firmware.scons` — lines `42` and `111` added BGWX module path and build target.
+   - `/home/runner/work/bgwfzfw/bgwfzfw/targets/f7/target.json` — line `24` added `"bgwxfzfw"` to `linker_dependencies`.
+
+4. **Runtime speaker pin behavior**
+   - `/home/runner/work/bgwfzfw/bgwfzfw/targets/f7/furi_hal/furi_hal_resources.c` — lines `64-65` added `bgw_gpio_speaker` (PA6).
+   - `/home/runner/work/bgwfzfw/bgwfzfw/targets/f7/furi_hal/furi_hal_speaker.c` — line `1` include BGWX header; lines `37-47` runtime pin selection on acquire; lines `55-69` conditional pin release.
+
+5. **About screen wiring**
+   - `/home/runner/work/bgwfzfw/bgwfzfw/applications/settings/about/about.c` — line `14` includes BGWX header.
 
 ---
 
