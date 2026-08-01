@@ -11,6 +11,7 @@
 #include <furi_hal_region.h>
 #include <furi_hal_bt.h>
 #include <furi_hal_info.h>
+#include <bgwxfzfw/bgwxfzfw.h>
 
 typedef DialogMessageButton (*AboutDialogScreen)(DialogsApp* dialogs, DialogMessage* message);
 

@@ -29,6 +29,8 @@ env = ENV.Clone(
     TARGETS_ROOT=Dir("#/targets"),
     LINT_SOURCES=[
         Dir("applications"),
+        # Not C code
+        Dir("!applications/system/js_app/packages"),
     ],
     LIBPATH=[
         "${LIB_DIST_DIR}",
@@ -37,6 +39,7 @@ env = ENV.Clone(
         "#/furi",
         *(f"#/{app_dir[0]}" for app_dir in ENV["APPDIRS"] if app_dir[1]),
         "#/targets/furi_hal_include",
+        "#/bgwxfzfw",
     ],
     # Specific flags for building libraries - always do optimized builds
     FW_LIB_OPTS={
@@ -105,6 +108,7 @@ lib_targets = env.BuildModules(
         "assets",
         "targets",
         "furi",
+        "bgwxfzfw",
     ],
 )
 
@@ -216,6 +220,7 @@ fwelf = fwenv["FW_ELF"] = fwenv.Program(
     sources,
     LIBS=fwenv["TARGET_CFG"].linker_dependencies,
 )
+Depends(fwelf, fwenv["LINKER_SCRIPT_PATH"])
 
 # Firmware depends on everything child builders returned
 # Depends(fwelf, lib_targets)

@@ -61,6 +61,8 @@ const GpioPin gpio_usart_rx = {.port = USART1_RX_Port, .pin = USART1_RX_Pin};
 const GpioPin gpio_i2c_power_sda = {.port = GPIOA, .pin = LL_GPIO_PIN_10};
 const GpioPin gpio_i2c_power_scl = {.port = GPIOA, .pin = LL_GPIO_PIN_9};
 
+const GpioPin bgw_gpio_speaker = {.port = GPIOA,
+                                  .pin = LL_GPIO_PIN_6}; // Custom (GPIO pin 3)
 const GpioPin gpio_speaker = {.port = GPIOB, .pin = LL_GPIO_PIN_8};
 
 const GpioPin gpio_periph_power = {.port = GPIOA, .pin = LL_GPIO_PIN_3};
@@ -287,4 +289,20 @@ int32_t furi_hal_resources_get_ext_pin_number(const GpioPin* gpio) {
         }
     }
     return -1;
+}
+
+const GpioPinRecord* furi_hal_resources_pin_by_name(const char* name) {
+    for(size_t i = 0; i < gpio_pins_count; i++) {
+        const GpioPinRecord* record = &gpio_pins[i];
+        if(strcasecmp(name, record->name) == 0) return record;
+    }
+    return NULL;
+}
+
+const GpioPinRecord* furi_hal_resources_pin_by_number(uint8_t number) {
+    for(size_t i = 0; i < gpio_pins_count; i++) {
+        const GpioPinRecord* record = &gpio_pins[i];
+        if(record->number == number) return record;
+    }
+    return NULL;
 }
