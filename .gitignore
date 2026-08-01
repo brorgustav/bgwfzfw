@@ -83,4 +83,3 @@ furi_hal_gpio.c alias
 furi_hal_resources.c alias
 furi_hal_resources.h alias
 furi_hal_speaker.c alias
-*.h

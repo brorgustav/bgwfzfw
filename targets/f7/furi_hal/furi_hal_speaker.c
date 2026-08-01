@@ -1,3 +1,4 @@
+#include <bgwxfzfw/bgwxfzfw.h>
 #include <furi_hal_speaker.h>
 #include <furi_hal_gpio.h>
 #include <furi_hal_resources.h>
@@ -31,35 +32,20 @@ void furi_hal_speaker_deinit(void) {
 }
 
 bool furi_hal_speaker_acquire(uint32_t timeout) {
-  furi_check(!FURI_IS_IRQ_MODE());
+    furi_check(!FURI_IS_IRQ_MODE());
 
-  if (furi_mutex_acquire(furi_hal_speaker_mutex, timeout) == FuriStatusOk) {
+    if(furi_mutex_acquire(furi_hal_speaker_mutex, timeout) != FuriStatusOk) {
+        return false;
+    }
+
     furi_hal_power_insomnia_enter();
     furi_hal_bus_enable(FuriHalBusTIM16);
 
-    // Runtime speaker pin selection
-    if (bgwx_get_speaker_mode()) {
-      // Use custom speaker pin (PA6)
-      furi_hal_gpio_init_ex(&bgw_gpio_speaker, GpioModeAltFunctionPushPull,
-                            GpioPullNo, GpioSpeedLow, GpioAltFn14TIM16);
-    furi_check(!FURI_IS_IRQ_MODE());
+    const GpioPin* speaker_pin = bgwx_get_speaker_mode() ? &bgw_gpio_speaker : &gpio_speaker;
+    furi_hal_gpio_init_ex(
+        speaker_pin, GpioModeAltFunctionPushPull, GpioPullNo, GpioSpeedLow, GpioAltFn14TIM16);
 
-    if(furi_mutex_acquire(furi_hal_speaker_mutex, timeout) == FuriStatusOk) {
-        furi_hal_power_insomnia_enter();
-        furi_hal_bus_enable(FuriHalBusTIM16);
-        furi_hal_gpio_init_ex(
-            &gpio_speaker, GpioModeAltFunctionPushPull, GpioPullNo, GpioSpeedLow, GpioAltFn14TIM16);
-        return true;
-    } else {
-      // Use default speaker pin (PB8)
-      furi_hal_gpio_init_ex(&gpio_speaker, GpioModeAltFunctionPushPull,
-                            GpioPullNo, GpioSpeedLow, GpioAltFn14TIM16);
-        return false;
-    }
     return true;
-  } else {
-    return false;
-  }
 }
 
 void furi_hal_speaker_release(void) {
