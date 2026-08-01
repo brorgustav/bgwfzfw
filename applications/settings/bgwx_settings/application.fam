@@ -15,5 +15,5 @@ App(
     requires=["gui"],
     sources=["*.c"],
     stack_size=1 * 1024,
-    order=80,
+    order=85,
 )
