@@ -35,3 +35,7 @@
 [submodule "documentation/doxygen/doxygen-awesome-css"]
 	path = documentation/doxygen/doxygen-awesome-css
 	url = https://github.com/jothepro/doxygen-awesome-css.git
+[submodule "applications_user/bgw-flipper-midi-lib-src"]
+	path = applications_user/bgw-flipper-midi-lib-src
+	url = https://github.com/brorgustav/bgw-flipper-midi-lib.git
+	branch = bgwfzfw-integration
