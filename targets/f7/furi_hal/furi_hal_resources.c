@@ -147,7 +147,6 @@ const GpioPinRecord gpio_pins[] = {
      .debug = true},
     // GND: 18
 
-/* Dangerous pins, may damage hardware */
 #ifdef BGWX_CUSTOM_SPEAKER
     {.pin = &bgw_gpio_speaker,
      .name = "PB3",
@@ -155,13 +154,13 @@ const GpioPinRecord gpio_pins[] = {
      .number = 0,
      .debug = true},
 #else
+    /* Dangerous pins, may damage hardware */
     {.pin = &gpio_speaker,
      .name = "PB8",
      .channel = FuriHalAdcChannelNone,
      .number = 0,
      .debug = true},
 #endif
-
     {.pin = &gpio_infrared_tx,
      .name = "PB9",
      .channel = FuriHalAdcChannelNone,
@@ -172,9 +171,6 @@ const GpioPinRecord gpio_pins[] = {
 const size_t gpio_pins_count = COUNT_OF(gpio_pins);
 
 const InputPin input_pins[] = {
-    {.gpio = &gpio_button_up,
-     .key = InputKeyUp,
-     .inverted = true,
     {.gpio = &gpio_button_up, .key = InputKeyUp, .inverted = true, .name = "Up"},
     {.gpio = &gpio_button_down, .key = InputKeyDown, .inverted = true, .name = "Down"},
     {.gpio = &gpio_button_right, .key = InputKeyRight, .inverted = true, .name = "Right"},
