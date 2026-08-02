@@ -7,7 +7,6 @@
 #include <furi_hal.h>
 
 #include "iso7816_handler.h"
-#include "../ccid_usb.h"
 
 #include "iso7816_t0_apdu.h"
 #include "iso7816_atr.h"
@@ -80,11 +79,11 @@ Iso7816Handler* iso7816_handler_alloc() {
 }
 
 void iso7816_handler_set_usb_ccid_callbacks() {
-    ccid_usb_set_callbacks(ccid_callbacks, iso7816_handler);
+    furi_hal_usb_ccid_set_callbacks(ccid_callbacks, iso7816_handler);
 }
 
 void iso7816_handler_reset_usb_ccid_callbacks() {
-    ccid_usb_set_callbacks(NULL, NULL);
+    furi_hal_usb_ccid_set_callbacks(NULL, NULL);
 }
 
 void iso7816_handler_free(Iso7816Handler* handler) {

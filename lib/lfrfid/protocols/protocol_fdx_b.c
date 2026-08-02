@@ -284,12 +284,9 @@ void protocol_fdx_b_render_data(ProtocolFDXB* protocol, FuriString* result) {
 
     bool block_status = bit_lib_get_bit(protocol->data, 48);
     bool rudi_bit = bit_lib_get_bit(protocol->data, 49);
-    uint8_t visual_start_digit =
-        bit_lib_reverse_8_fast(bit_lib_get_bits(protocol->data, 50, 3) << 5);
-    uint8_t reserved = bit_lib_reverse_8_fast(bit_lib_get_bits(protocol->data, 53, 2) << 6);
-    uint8_t user_info = bit_lib_reverse_8_fast(bit_lib_get_bits(protocol->data, 55, 5) << 3);
-    uint8_t replacement_number =
-        bit_lib_reverse_8_fast(bit_lib_get_bits(protocol->data, 60, 3) << 5);
+    uint8_t reserved = bit_lib_get_bits(protocol->data, 50, 5);
+    uint8_t user_info = bit_lib_get_bits(protocol->data, 55, 5);
+    uint8_t replacement_number = bit_lib_get_bits(protocol->data, 60, 3);
     bool animal_flag = bit_lib_get_bit(protocol->data, 63);
     Storage* storage = furi_record_open(RECORD_STORAGE);
     FuriString* country_full_name = furi_string_alloc();
@@ -323,19 +320,13 @@ void protocol_fdx_b_render_data(ProtocolFDXB* protocol, FuriString* result) {
         result,
         "\n"
         "Animal: %s\n"
-        "Visual Start Digit: %hu\n"
-        "Replacement Number: %hu\n"
-        "User Info: %hhX\n"
-        "Data Block: %s\n"
-        "RUDI Bit: %s\n"
-        "RFU: %hhX\n",
+        "Bits: %hhX-%hhX-%hhX-%hhX-%hhX",
         animal_flag ? "Yes" : "No",
-        visual_start_digit,
-        replacement_number,
+        block_status,
+        rudi_bit,
+        reserved,
         user_info,
-        block_status ? "Present" : "Absent",
-        rudi_bit ? "Yes" : "No",
-        reserved);
+        replacement_number);
 
     furi_string_free(country_full_name);
 }

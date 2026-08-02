@@ -147,11 +147,10 @@ async function upload(config) {
     port.write(`storage remove ${config.output}\x0d`);
     port.drain();
     await waitFor(">: ", 1000);
-    const appFileBuffer = Buffer.from(appFile, "utf8");
-    port.write(`storage write_chunk ${config.output} ${appFileBuffer.length}\x0d`);
+    port.write(`storage write_chunk ${config.output} ${appFile.length}\x0d`);
     await waitFor("Ready", 1000);
-    port.write(appFileBuffer);
-    await new Promise(resolve => port.drain(resolve));
+    port.write(appFile);
+    port.drain();
     await waitFor(">: ", 1000);
 
     console.log("Launching application");
